@@ -89,23 +89,24 @@ VIEWPORT = {
     ),
     'restructuredtext':
     re.compile(
-        '^'                         # Starts at the beginning of the first line
-        '(?P<name>[^\|\[\{]*)'      # Name of the viewport, all before the | sign
-                                    # Cannot include '[', '#', '|, and '{'
-        '\|'                        # Colon
-        '(?P<filter>[^\|]+?)'       # Filter
-        '('                         # Optional defaults
-        '\|'                        # Colon
-        '(?P<defaults>[^\|]+?)'     # Default attrs
+        '^'                             # Starts at the beginning of the first line
+        '(?P<name>[^\|\[\{]*)'          # Name of the viewport, all before the | sign
+                                        # Cannot include '[', '=', '|, and '{'
+        '\|'                            # Colon
+        '(?P<filter>[^\|]+?)'           # Filter
+        '('                             # Optional defaults
+        '\|'                            # Colon
+        '(?P<defaults>[^\|]+?)'         # Default attrs
         ')?'
-        '\s*'                       # Any whitespace
-        '(#(?P<source>[A-Z]))?'     # Optional source indicator
-        '\s*'                       # Any whitespace
-        '(\$(?P<sort>[A-Z]))?'      # Optional sort indicator
-        '\s*'                   # Any whitespace
-        '\r?\n'                     # Portable newlines
-        r"""([-=~:^"#*._+`'])\1+""" # Any non-alphanumeric characters
-        '$'                         # End of line
+        '\s*'                           # Any whitespace
+        '(#(?P<source>[A-Z]))?'         # Optional source indicator
+        '\s*'                           # Any whitespace
+        '(\$(?P<sort>[A-Z]))?'          # Optional sort indicator
+        '\s*'                           # Any whitespace
+        '\r?\n'                         # Portable newlines
+        r"""(?P<line>[-=~:^"#*._+`'])"""# Any non-alphanumeric characters
+        "(?P=line)+"                    # Match a line of non-alpanumeric characters
+        '$'                             # End of line
     )
 }
 
@@ -128,13 +129,12 @@ HEADER = {
     ),
     'restructuredtext':
     re.compile(
-        '^'                         # Starts at the beginning of the first line
-        '[^\s]+'                    # No whitespace
-        '.*'                        # Any characters
-        '[^\s]+'                    # No whitespace
-        '\r?\n'                     # Portable newlines
-        r"""([-=~:^"#*._+`'])\1+""" # Any non-alphanumeric characters
-        '$'                         # End of line
+        '^'                             # Starts at the beginning of the first line
+        '.*'                            # Any characters
+        '\r?\n'                         # Portable newlines
+        r"""(?P<line>[-=~:^"#*._+`'])"""# Any non-alphanumeric characters
+        "(?P=line)+"                    # Match a line of non-alpanumeric characters
+        '$'                             # End of line
     )
 }
 
