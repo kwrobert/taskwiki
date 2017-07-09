@@ -19,7 +19,7 @@ class TestParsingSyntax(object):
 
     def test_viewport(self, test_syntax):
         markup, syntax = test_syntax
-        viewport = syntax['viewport'] % "project:Home"
+        viewport = syntax['viewport'] % "project:Home | +home #T $T"
 
         print("Markup: %s\nViewport syntax:\n%s\nRegex pattern:\n%s" % (
             markup, viewport, regexp.VIEWPORT[markup].pattern))
@@ -28,9 +28,9 @@ class TestParsingSyntax(object):
 
         assert match != None
 
-        filterstring = match.group('filter').strip()
-        name = match.group('name').strip()
-
-        assert filterstring == "project:Home"
-        assert name == "Test"
+        assert match.group('name').strip() == "Test"
+        assert match.group('filter').strip() == "project:Home"
+        assert match.group('defaults').strip() == "+home"
+        assert match.group('source').strip() == "T"
+        assert match.group('sort').strip() == "T"
 
