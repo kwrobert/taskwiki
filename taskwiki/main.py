@@ -265,14 +265,16 @@ class Mappings(object):
         # Detect if the cursor stands on a vimwiki link,
         # if so, trigger it
         inside_vimwiki_link = all([
-            '[[' in line,
-            ']]' in line,
-            column >= line.find('[['),
-            column <= line.find(']]') + 1
+            '[' in line,
+            ']' in line,
+            '(' in line,
+            ')' in line,
+            column >= line.find('['),
+            column <= line.find(')') + 1
         ])
 
         if inside_vimwiki_link:
-            vim.command('VimwikiFollowLink')
+            vim.command('WikiLinkOpen')
             return
 
         # No link detected, check for viewport or a task
@@ -287,7 +289,7 @@ class Mappings(object):
 
         # No link detected, not a viewport or a task, so delegate to
         # VimwikiFollowLink for link creation
-        vim.command('VimwikiFollowLink')
+        vim.command('WikiLinkOpen')
 
 
 
